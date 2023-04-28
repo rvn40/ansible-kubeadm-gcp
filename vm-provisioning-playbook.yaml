@@ -1,0 +1,95 @@
+---
+
+- hosts: localhost
+  become: yes
+  vars:
+    auth:
+      kind: "serviceaccount"
+      file: "files/serviceaccount.pem"
+    vm:
+      project: "techipool"
+      type: "n1-standard-1"
+      os: "projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20230215"
+      zone: "us-central1-a"
+      disk_size: 20
+      controlplane:
+        name: "techipool-controlplane"
+        internal_ip: "10.128.0.3"
+      worker:
+        name: "techipool-worker"
+        internal_ip: "10.128.0.6"
+  tasks:
+    - name: create root disks for controlplane
+      google.cloud.gcp_compute_disk:
+        name: "{{ vm.controlplane.name }}-disk"
+        size_gb: "{{ vm.disk_size }}"
+        source_image: "{{ vm.os }}"
+        zone: "{{ vm.zone }}"
+        project: "{{ vm.project }}"
+        auth_kind: "{{ auth.kind }}"
+        service_account_file: "{{ auth.file }}"
+        state: present
+      register: cp_disk
+
+    - name: create root disks for worker
+      google.cloud.gcp_compute_disk:
+        name: "{{ vm.worker.name }}-disk"
+        size_gb: "{{ vm.disk_size }}"
+        source_image: "{{ vm.os }}"
+        zone: "{{ vm.zone }}"
+        project: "{{ vm.project }}"
+        auth_kind: "{{ auth.kind }}"
+        service_account_file: "{{ auth.file }}"
+        state: present
+      register: wk_disk
+    
+    - name: Get info on a network
+      gcp_compute_network_info:
+        filters:
+        - name = "default"
+        project: "{{ vm.project }}"
+        auth_kind: "{{ auth.kind }}"
+        service_account_file: "{{ auth.file }}"
+      register: network
+
+    - name: create a controlplane instance
+      google.cloud.gcp_compute_instance:
+        name: "{{ vm.controlplane.name }}-01"
+        machine_type: "{{ vm.type }}"
+        disks:
+        - auto_delete: 'true'
+          boot: 'true'
+          source: "{{ cp_disk }}"
+        network_interfaces:
+        - network: "{{ network }}"
+          network_ip: "{{ vm.controlplane.internal_ip }}"
+          access_configs:
+          - name: External NAT
+            type: ONE_TO_ONE_NAT
+        zone: "{{ vm.zone }}"
+        project: "{{ vm.project }}"
+        auth_kind: "{{ auth.kind }}"
+        service_account_file: "{{ auth.file }}"
+        state: present
+      register: cp_vm
+
+    - name: create a worker instance
+      google.cloud.gcp_compute_instance:
+        name: "{{ vm.worker.name }}-01"
+        machine_type: "{{ vm.type }}"
+        disks:
+        - auto_delete: 'true'
+          boot: 'true'
+          source: "{{ wk_disk }}"
+        network_interfaces:
+        - network: "{{ network }}"
+          network_ip: "{{ vm.worker.internal_ip }}"
+          access_configs:
+          - name: External NAT
+            type: ONE_TO_ONE_NAT
+        zone: "{{ vm.zone }}"
+        project: "{{ vm.project }}"
+        auth_kind: "{{ auth.kind }}"
+        service_account_file: "{{ auth.file }}"
+        state: present
+      register: wk_vm
