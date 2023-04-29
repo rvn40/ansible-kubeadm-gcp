@@ -42,7 +42,7 @@
           "networkTier": "STANDARD"
         }
       ],
-      "networkIP": "{{ vm_node.ip }}",
+      "networkIP": "{{ vm_node.internal_ip }}",
       "stackType": "IPV4_ONLY",
       "subnetwork": "projects/{{ vm.project }}/regions/{{ vm.region }}/subnetworks/default"
     }
