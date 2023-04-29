@@ -24,7 +24,7 @@
       template:  
         src: files/vm.json.j2
         dest: "files/vm-{{ vm_node_idx }}.json"
-      loop: "{{ nodes }}"
+      loop: "{{ vm.nodes }}"
       loop_control:
         loop_var: vm_node
         index_var: vm_node_idx
