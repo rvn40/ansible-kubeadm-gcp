@@ -6,6 +6,7 @@
     auth:
       kind: "serviceaccount"
       file: "files/serviceaccount.pem"
+      token: "ya29.c.b0Aaekm1JRhuK4837bBk2qRgCCE7ve0IVco-ilq78fBJgpfECGd6YW4SwZiU_mMHzMfD3Uxs0LB0UUlG549tEVzn0R3EfWi_temcV8MpKjwMAJNGdP41OzWdlNAeWbn1WTKPo4QyvrUnGMOzIV9qJhwFjIB03BUwFqd_pdvniFX7yjQk6uwUh2mDSHc7b82nYiVTZCHfa0ut8dZQUH_MFiHmtT8UMpplihYhOY21ARvLhnNioqAX_GaVn2UuNpMI0cyhxGY8_VhLJFRyvUzuGOPW7J9w5wvF9aEX0NNd4zZlyu9CIhH6E7dpfTQp4qC-CfggqoFDs3_QG339AF4Bd3zW2fzvs7pQqt7UYgJQe4ZX7j6RMryyfzlOfq05cdnZ8qy3wcQetqJpfaanoiFqFcvav23VtFMbWv7S55Rl6af5dk-OB2u-It3W7RsJiowlrpUzrssyQ6zOfj3-yenBwQBFiYfIv2yvtOohgbr22ywyFbSZpMkvx-Roeukf2uqe50QZo9emYkvjm8j-_4UhRbmOxBc3rfm0s4W9cyvlzO3fw3dOyQUnhdOO_znzxlpjhs2tXiWWpgknjfqxZdXnwSes8YVlBQ8qcBaq0z5X_yBef26jis9J5dB4owFpfu18uUxmqO50hXVyxqnUcmJpstrli6Jxp8ys1RBZ3f_ff35b74_Z80Sb7d9BSQ4z9Jatqu50kQYpZ3FvuVgfY9BMRux24d-S7lZ2nqB-9j0YS6zskjji-2xogq585Jg0j8-JB--WgBo6e7dgijUywiIYvzu5iQkcR3RwZM655Sek5ck9uszmy7lxRoUMU-rYv0yO3Uciy61fjzBJYFqRZ1ic_6eXctU4UqZgv79MzdgyWV7enX6RR9x_ck1IWx_806kWVqo5zaSofng_e-3Qe41Z87t0vYlJhxvh2BJwduYgUZ3o48i4MhrMs6VXYzUxUteB-nFnby3vcYYz6Qadynua8xgrB457zqcBofyuFMmUIUJnoMlMyvokvtbMk"
     vm:
       project: "techipool"
       region: "us-central1"
@@ -21,17 +22,29 @@
   tasks:
     - name: Basic template example  
       template:  
-        src: example1.j2  
-        dest: /home/knoldus/Documents/Ansible/output.txt
+        src: files/vm.json.j2
+        dest: "files/vm-{{ vm_node_idx }}.json"
+      loop: "{{ nodes }}"
+      loop_control:
+        loop_var: vm_node
+        index_var: vm_node_idx
+      register: vm_json
 
-    - name: Create root disks for controlplane
-      ansible.builtin.uri:
-      url: "https://www.googleapis.com/compute/v1/projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}/instances"
-      method: POST
-      body_format: json
-      status_code: [200, 202]
-      return_content: true
-      headers:
-        Content-Type: application/json
-        Authorization: Bearer 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
-      register: vm
+    - name: Debug
+      var: vm_json
+
+    #- name: Create worker and controlplane
+    #  ansible.builtin.uri:
+    #    url: "https://www.googleapis.com/compute/v1/projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}/instances"
+    #    method: POST
+    #    src: files/vm.json
+    #    body_format: json
+    #    status_code: [200, 202]
+    #    return_content: true
+    #    headers:
+    #      Content-Type: application/json
+    #      Authorization: "Bearer {{ auth.token }}"
+    #  loop: "{{ nodes }}"
+    #  loop_control:
+    #    loop_var: vm_node
+    #  register: vm
