@@ -1,0 +1,22 @@
+---
+
+
+auth:
+  kind: "serviceaccount"
+  file: "files/serviceaccount.pem"
+  token: "ya29.c.b0Aaekm1KG1qXi8s_sig5jBZL-E_NmqzRTEJE1nCmLmRRVA4KjUzkMZXRUNx48nwpncSkiuETpVuWYpEsTz_6DS1csVOBH1s7fIYHp_pVMW9U4_30q03D9IWX7psJYTxVh0aoZhqNW88a6zHZr0MtbVfwFqNg7aD33R_8c7vjApRyAmvUk8rwTaVuiMBLRnawxNNTZ14jFAYp4VM2nSIgLF7E7ZMwZBd-W8WMP4IIOIV-by7iYXOEKiLXJf_jHs7MC8NKRw9nZ1Btfy6OL35so1WxXTTUq5V4WMoBtIRUjvQpKDscga6bKtiFDopBKBpXUS8-jMoChG337D-RBgWFr6JBncFOo1eUfdnY2mIQoM4m7yOenJR_q1x0M8SJUglx59x2VOfs91oyiRlv5vgSXfpaeMl_7nokrqnzYVwnUgYY2W1w1wln2pZ_4Wbv_Mt7Uh3lxYgv0aoYcowt3JcpgQ-jeQjm4shJ3pzQ0Oa0S0cF26Ixo4-vfUhOhwQQVQl5e-e4vR1IVrqbqRoxm6QFFbux8VBJgtV6mlgUdiBJRmb58Fqnhf1q1SMOedjtyhdM6ioQ4dWsM7mB6ShVU3hR6I9m5_u1S8x3j3pMfe6iuBj149lSl0yBJ_uWs7mu_YJRWlVru2MoMjXXsJ9VBkq7XZqJ2qJxSZ09ozuS8WWYip8Uqu_f3_apB6yRRv3OUomY5Ziu95iWdyj6a-h0qVobRYxoRI3Xta5MahIcpFoRxbBMRdu0-6or7Moq-ugW-Qpgy2qcgV_WOn0Stdd1wwwyhmh5_qy3-k-lQ1272o7g35MrxmYIibzchtqa2hbsmfjydq5pYvnpxJVw-eZ6M0VrQZsoucWZ-uebgSkVbmIX4S0bdpwkwovZ5cOM5q0z6hkXsz3kz3RBFR70BQ9oOMyF3v5uhq2FejUYwz46tgVc1t61QUfqu9U5g65nhMembbevdmeZF8B5zplmryotxezJ7ton9FjRQ6jVnQVhyF9pUOIJtpewR4J31v-j"
+vm:
+  project: "techipool"
+  region: "us-central1"
+  zone: "a"
+  nodes:
+    - name: "techipool-controlplane"
+      internal_ip: "10.128.0.3"
+      type: "e2-medium"
+      os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
+      disk_size: 20
+    - name: "techipool-worker"
+      internal_ip: "10.128.0.6"
+      type: "e2-medium"
+      os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
+      disk_size: 20

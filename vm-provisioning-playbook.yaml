@@ -3,33 +3,9 @@
 - hosts: localhost
   become: yes
   vars_files:
-    - vars.yaml
+    - vars/vars.yaml
   tasks:
-    - name: Basic template example  
-      template:  
-        src: files/vm.json.j2
-        dest: "files/vm-{{ vm_node_idx }}.json"
-      loop: "{{ vm.nodes }}"
-      loop_control:
-        loop_var: vm_node
-        index_var: vm_node_idx
-      register: vm_json
-
-    - name: Create worker and controlplane
-      ansible.builtin.uri:
-        url: 'https://www.googleapis.com/compute/v1/projects/techipool/zones/us-central1-a/instances'
-        method: POST
-        src: "{{ vm_instance.dest }}"
-        body_format: json
-        status_code: [200, 202]
-        return_content: true
-        headers:
-          Content-Type: application/json
-          Authorization: "Bearer {{ auth.token }}"
-      loop: "{{ vm_json.results }}"
-      loop_control:
-        loop_var: vm_instance
-      register: vm
+    - include: tasks/vm_provisioning.yaml
 
     #- name: Debug
     #  debug:
