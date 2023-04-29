@@ -12,10 +12,10 @@
       "deviceName": "{{ vm_node.name }}",
       "diskEncryptionKey": {},
       "initializeParams": {
-        "diskSizeGb": "{{ vm.disk_size }}",
+        "diskSizeGb": "{{ vm_node.disk_size }}",
         "diskType": "projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}/diskTypes/pd-balanced",
         "labels": {},
-        "sourceImage": "{{ vm.os }}"
+        "sourceImage": "{{ vm_node.os }}"
       },
       "mode": "READ_WRITE",
       "type": "PERSISTENT"
@@ -29,7 +29,7 @@
   "labels": {
     "ec-src": "vm_add-rest"
   },
-  "machineType": "projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}/machineTypes/{{ vm.type }}",
+  "machineType": "projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}/machineTypes/{{ vm_node.type }}",
   "metadata": {
     "items": []
   },

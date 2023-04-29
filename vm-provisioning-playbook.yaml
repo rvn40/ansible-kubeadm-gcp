@@ -2,23 +2,8 @@
 
 - hosts: localhost
   become: yes
-  vars:
-    auth:
-      kind: "serviceaccount"
-      file: "files/serviceaccount.pem"
-      token: "ya29.c.b0Aaekm1IJnlmux-LMJJDa_mqfpp_u7Z9rPYhe7rXtfazvXex4r1bArJ5zX8akuSo9VxSWQw7BYBcrAOmF7ICFVeDZER_i2zC3LcsdJ-gYCsd-mLKEvYHRQ37xZ9YyQPeV_xY1d3mlYvIoRzEUGskpwvlSoXzz6OvbdS_pCfeNM9ln6-8ognLMn7xhaAKluprfT-1Zqk7lvdMUcNIEpy2vbYKDrpfdeUH5rMwQvqcKSqy9wfHl_zJsSJgNugzuk5ff8GLgAd3RIWIV3Y0NBRY6oTrQrirg6xjWbIglmxW-JPQVlqKd_2gndrsC4OBc3RYP7MhVPrtrsAH339CrW6xuVnJYurdp-csIzq3zsXjtwQ_23m-h2cYbB-M56p7yvztlz5F1oZ-uaz4Qwyx80a5108xavWMJ_MxdO57uhbsfoJvSwgnUxkyJWYy-Zsaee2jfkMldtXm-iw5nvJO73hJjBf6ivmV6apRb5eIkXz0x0_6uerX13Obad-dhdqYntkUdukkogvgm9uucZub72elIv4O1k3dV4J1rhxpF9d4uw-4rnyMmFxprsaz9fhfw22uSqrm8S34kx75ytt_mSVx-f1desOUhdlB2e9kFuaRkQMh7eObUo6YQcuhW1zBw1aFioRwhzhtmB5h1wWoyYdekxWU3agvVxOrZ16cB3BMeud7sjlsVWmgjWte6z-0_hiuiq7vY5cena7FMJIy3t4fqZo8Xw1eIg0otnd3R6Qq8niRJm9B42e0bnmJiWWhaueIW2fY9iR54az7Muk6VmUn9sFmrqRyF_-MZ3QOQbtjBVZbM4YohyzirfjkckckhMr_MXOwOr4lYcjkWsvmaqQzg2fXJSVlBcXYj563Wm57_Qv5mUa2wFl-paw-qkIjn54ynx_ZOR64e8Jk4X_oOVVjI44bw2khij-8hIO-WOXOnwfcbaU_1MzFd3wQUsyzyX_ut6_UdtM1sZQ-hUUUtRkqIrkYRYseUrSicVRWaVomJh3eFc1MqUjn7eyv"
-    vm:
-      project: "techipool"
-      region: "us-central1"
-      zone: "a"
-      type: "e2-medium"
-      os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
-      disk_size: 20
-      nodes:
-        - name: "techipool-controlplane"
-          internal_ip: "10.128.0.3"
-        - name: "techipool-worker"
-          internal_ip: "10.128.0.6"
+  vars_files:
+    - vars.yaml
   tasks:
     - name: Basic template example  
       template:  
@@ -32,7 +17,7 @@
 
     - name: Create worker and controlplane
       ansible.builtin.uri:
-        url: "https://www.googleapis.com/compute/v1/projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}/instances"
+        url: 'https://www.googleapis.com/compute/v1/projects/techipool/zones/us-central1-a/instances'
         method: POST
         src: "{{ vm_instance.dest }}"
         body_format: json
@@ -45,3 +30,7 @@
       loop_control:
         loop_var: vm_instance
       register: vm
+
+    #- name: Debug
+    #  debug:
+    #    var: vm_json
