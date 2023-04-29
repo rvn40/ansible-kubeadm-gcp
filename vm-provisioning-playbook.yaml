@@ -30,22 +30,18 @@
         index_var: vm_node_idx
       register: vm_json
 
-    - name: Debug
-      debug:
-        var: vm_json
-
-    #- name: Create worker and controlplane
-    #  ansible.builtin.uri:
-    #    url: "https://www.googleapis.com/compute/v1/projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}/instances"
-    #    method: POST
-    #    src: files/vm.json
-    #    body_format: json
-    #    status_code: [200, 202]
-    #    return_content: true
-    #    headers:
-    #      Content-Type: application/json
-    #      Authorization: "Bearer {{ auth.token }}"
-    #  loop: "{{ nodes }}"
-    #  loop_control:
-    #    loop_var: vm_node
-    #  register: vm
+    - name: Create worker and controlplane
+      ansible.builtin.uri:
+        url: "https://www.googleapis.com/compute/v1/projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}/instances"
+        method: POST
+        src: "{{ vm_instance.dest }}"
+        body_format: json
+        status_code: [200, 202]
+        return_content: true
+        headers:
+          Content-Type: application/json
+          Authorization: "Bearer {{ auth.token }}"
+      loop: "{{ vm_json.results }}"
+      loop_control:
+        loop_var: vm_instance
+      register: vm
