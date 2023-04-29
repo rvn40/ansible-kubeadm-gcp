@@ -32,7 +32,7 @@
 
     - name: Create worker and controlplane
       ansible.builtin.uri:
-        url: https://www.googleapis.com/compute/v1/projects/"{{ vm.project }}"/zones/"{{ vm.region }}-{{ vm.zone }}"/instances
+        url: "https://www.googleapis.com/compute/v1/projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}/instances"
         method: POST
         src: "{{ vm_instance.dest }}"
         body_format: json
