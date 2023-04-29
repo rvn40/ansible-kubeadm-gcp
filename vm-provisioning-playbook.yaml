@@ -31,7 +31,8 @@
       register: vm_json
 
     - name: Debug
-      var: vm_json
+      debug:
+        var: vm_json
 
     #- name: Create worker and controlplane
     #  ansible.builtin.uri:
