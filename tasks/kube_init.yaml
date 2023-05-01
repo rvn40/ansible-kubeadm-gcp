@@ -6,6 +6,7 @@
     method: GET
     return_content: true
   register: getIP
+  when: ansible_hostname == 'controlplane'
 
 - name: Reset Kubernetes component
   shell: "kubeadm reset --force --cri-socket=/var/run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
