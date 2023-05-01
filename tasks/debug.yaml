@@ -1,9 +1,7 @@
 ---
 
-- name: "run on that_one_host host"
-  shell: this_command_should_run_on_one_host
-  when: ansible_hostname == 'ansible-01'
 
 - name: Debug
   debug:
     var: ansible_hostname 
+  when: ansible_hostname == 'controlplane'

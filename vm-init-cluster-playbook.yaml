@@ -5,5 +5,5 @@
   vars_files:
     - vars/vars.yaml
   tasks:
-    - include_tasks: tasks/kube_init.yaml
-    #- include_tasks: tasks/debug.yaml
+    #- include_tasks: tasks/kube_init.yaml
+    - include_tasks: tasks/debug.yaml
