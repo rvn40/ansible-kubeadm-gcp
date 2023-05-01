@@ -55,12 +55,12 @@
 
 - name: Add docker repository to apt
   apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ vm_instance.os_codename }} stable"
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ vm_node.os_codename }} stable"
     state: present
     filename: docker_repo
-  loop: "{{ vm_json.results }}"
+  loop: "{{ vm.nodes }}"
   loop_control:
-    loop_var: vm_instance
+    loop_var: vm_node
 
 - name: Add an kubeadm Apt signing key, uses whichever key is at the URL
   ansible.builtin.apt_key:
