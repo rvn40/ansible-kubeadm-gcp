@@ -32,7 +32,7 @@
                  --pod-network-cidr {{ kubeadm.pod_network_cidr }} \
                  --token {{ kubeadm.token }} \
                  --apiserver-advertise-address {{ getIP.content }} \
-                 --cri-socket=/var/run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
+                 --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
   args:
     executable: /bin/bash
   when: ansible_hostname == 'controlplane'
