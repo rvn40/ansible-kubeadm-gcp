@@ -12,9 +12,14 @@
   stat: path=/etc/containerd/config.toml
   register: containerd_config
 
-- name: Move foo to bar
+- name: Move config.toml
   command: mv /etc/containerd/config.toml /etc/containerd/config.toml.bk
   when: containerd_config.stat.exists
+
+- name: Make sure a containerd service unit is running
+  ansible.builtin.systemd:
+    state: restarted
+    name: containerd
 
 - name: Reset Kubernetes component
   shell: "kubeadm reset --force --cri-socket=/var/run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
