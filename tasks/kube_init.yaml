@@ -1,5 +1,12 @@
 ---
 
+- name: Get ip
+  ansible.builtin.uri:
+    url: 'https://ifconfig.me/ip'
+    method: GET
+    return_content: true
+  register: getIP
+
 - name: Reset Kubernetes component
   shell: "kubeadm reset --force --cri-socket=/var/run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
   when: ansible_hostname == 'controlplane'
@@ -10,7 +17,7 @@
     kubeadm init --service-cidr {{ kubeadm.service_cidr }} \
                  --pod-network-cidr {{ kubeadm.pod_network_cidr }} \
                  --token {{ kubeadm.token }} \
-                 --apiserver-advertise-address {{ master_ip }} \
+                 --apiserver-advertise-address {{ getIP.content }} \
                  --cri-socket=/var/run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
   args:
     executable: /bin/bash
