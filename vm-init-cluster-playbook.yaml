@@ -1,0 +1,8 @@
+---
+
+- hosts: "k8snodes"
+  become: yes
+  vars_files:
+    - vars/vars.yaml
+  tasks:
+    - include_tasks: tasks/kube_init.yaml

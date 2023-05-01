@@ -1,12 +1,11 @@
 ---
 
-
 - name: Reset Kubernetes component
   shell: "kubeadm reset --force --cri-socket=/var/run/{{ container_runtime }}/{{ container_runtime }}.sock"
   register: reset_cluster
 
 - name: Run init kubeadm
-  ansible.builtin.shell: |
+  shell: |
     kubeadm init --service-cidr {{ service_cidr }} \
                  --pod-network-cidr {{ pod_network_cidr }} \
                  --token {{ token }} \
@@ -14,20 +13,22 @@
                  --cri-socket=/var/run/{{ container_runtime }}/{{ container_runtime }}.sock
   args:
     executable: /bin/bash
-  become: true
+  register: init_cluster
 
-- name: Create kubernetes config directory
+- name: Log the init results
+  shell:  "{{ init_cluster }} > files/init_cluster.log"
+
+- name: Copy kubernetes config directory
   file:
-    path: "{{ ansible_env.HOME }}/.kube/"
+    path: "/home/rivan/.kube/"
     state: directory
   become_user: "{{ansible_user}}"
 
 - name: Copy admin.conf to Home directory
   copy:
     src: "/etc/kubernetes/admin.conf"
-    dest: "{{ ansible_env.HOME }}/.kube/config"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    dest: "/home/rivan/.kube/config"
+    owner: "rivan"
+    group: "rivan"
     mode: 0755
   when: init_cluster is succeeded
-  become_user: "{{ansible_user}}"
