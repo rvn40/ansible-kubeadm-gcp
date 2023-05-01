@@ -22,7 +22,8 @@
     name: containerd
 
 - name: Reset Kubernetes component
-  shell: "kubeadm reset --force --cri-socket=/var/run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
+  become_user: root
+  shell: "kubeadm reset --force --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
   when: ansible_hostname == 'controlplane'
   register: reset_cluster
 
