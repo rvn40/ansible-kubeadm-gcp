@@ -5,5 +5,5 @@
   vars_files:
     - vars/vars.yaml
   tasks:
-    - include: tasks/vm_provisioning.yaml
-    #- include: tasks/debug.yaml
+    - include_tasks: tasks/vm_provisioning.yaml
+    #- include_tasks: tasks/debug.yaml
