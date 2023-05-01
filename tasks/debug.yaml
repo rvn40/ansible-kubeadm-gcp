@@ -1,7 +1,12 @@
 ---
 
+- name: Get ip
+  ansible.builtin.uri:
+    url: 'https://ifconfig.me'
+    method: GET
+  register: getIP
 
 - name: Debug
   debug:
-    var: ansible_hostname 
+    var: getIP
   when: ansible_hostname == 'controlplane'
