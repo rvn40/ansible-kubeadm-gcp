@@ -3,4 +3,4 @@
 
 - name: Debug
   debug:
-    var: ansible_distribution_version 
+    var: ansible_distribution_release 
