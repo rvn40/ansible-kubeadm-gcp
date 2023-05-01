@@ -6,7 +6,7 @@
 
 - name: Allow everything and disable UFW
   community.general.ufw:
-    state: disable
+    state: disabled
 
 - name: Run command disable swap with bash shell
   shell: swapoff -a
