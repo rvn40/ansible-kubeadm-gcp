@@ -2,8 +2,9 @@
 
 - name: Get ip
   ansible.builtin.uri:
-    url: 'https://ifconfig.me'
+    url: 'https://ifconfig.me/ip'
     method: GET
+    return_content: true
   register: getIP
 
 - name: Debug
