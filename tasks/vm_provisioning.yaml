@@ -1,7 +1,7 @@
 ---
 
 
-- name: Basic template example  
+- name: Basic vm template  
   template:  
     src: files/vm.json.j2
     dest: "files/vm-{{ vm_node_idx }}.json"
@@ -26,3 +26,33 @@
   loop_control:
     loop_var: vm_instance
   register: vm
+
+- name: Remove file (delete file)
+  ansible.builtin.file:
+    path: "{{ vm_instance.dest }}"
+    state: absent
+  loop: "{{ vm_json.results }}"
+  loop_control:
+    loop_var: vm_instance
+
+- name: Basic hosts template  
+  template:  
+    src: files/hosts.j2
+    dest: "hosts"
+  
+- name: Append group on inventory
+  ansible.builtin.blockinfile:
+    path: hosts
+    insertafter: EOF
+    block: | 
+      
+      [k8snodes]
+      
+- name: Append list target on inventory
+  ansible.builtin.lineinfile:
+    path: hosts
+    insertafter: \[k8snodes\]
+    line: "{{ vm_instance.vm_node.name }} ansible_host={{ vm_instance.vm_node.internal_ip }} ansible_user=rivan ansible_ssh_private_key_file=\"files/gcloud.pem\" ansible_connection=ssh ansible_ssh_extra_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=/usr/bin/python3.11"
+  loop: "{{ vm_json.results }}"
+  loop_control:
+    loop_var: vm_instance

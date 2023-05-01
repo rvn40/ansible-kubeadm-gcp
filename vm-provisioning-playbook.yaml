@@ -6,7 +6,4 @@
     - vars/vars.yaml
   tasks:
     - include: tasks/vm_provisioning.yaml
-
-    #- name: Debug
-    #  debug:
-    #    var: vm_json
+    #- include: tasks/debug.yaml

@@ -4,19 +4,27 @@
 auth:
   kind: "serviceaccount"
   file: "files/serviceaccount.pem"
-  token: "ya29.c.b0Aaekm1KG1qXi8s_sig5jBZL-E_NmqzRTEJE1nCmLmRRVA4KjUzkMZXRUNx48nwpncSkiuETpVuWYpEsTz_6DS1csVOBH1s7fIYHp_pVMW9U4_30q03D9IWX7psJYTxVh0aoZhqNW88a6zHZr0MtbVfwFqNg7aD33R_8c7vjApRyAmvUk8rwTaVuiMBLRnawxNNTZ14jFAYp4VM2nSIgLF7E7ZMwZBd-W8WMP4IIOIV-by7iYXOEKiLXJf_jHs7MC8NKRw9nZ1Btfy6OL35so1WxXTTUq5V4WMoBtIRUjvQpKDscga6bKtiFDopBKBpXUS8-jMoChG337D-RBgWFr6JBncFOo1eUfdnY2mIQoM4m7yOenJR_q1x0M8SJUglx59x2VOfs91oyiRlv5vgSXfpaeMl_7nokrqnzYVwnUgYY2W1w1wln2pZ_4Wbv_Mt7Uh3lxYgv0aoYcowt3JcpgQ-jeQjm4shJ3pzQ0Oa0S0cF26Ixo4-vfUhOhwQQVQl5e-e4vR1IVrqbqRoxm6QFFbux8VBJgtV6mlgUdiBJRmb58Fqnhf1q1SMOedjtyhdM6ioQ4dWsM7mB6ShVU3hR6I9m5_u1S8x3j3pMfe6iuBj149lSl0yBJ_uWs7mu_YJRWlVru2MoMjXXsJ9VBkq7XZqJ2qJxSZ09ozuS8WWYip8Uqu_f3_apB6yRRv3OUomY5Ziu95iWdyj6a-h0qVobRYxoRI3Xta5MahIcpFoRxbBMRdu0-6or7Moq-ugW-Qpgy2qcgV_WOn0Stdd1wwwyhmh5_qy3-k-lQ1272o7g35MrxmYIibzchtqa2hbsmfjydq5pYvnpxJVw-eZ6M0VrQZsoucWZ-uebgSkVbmIX4S0bdpwkwovZ5cOM5q0z6hkXsz3kz3RBFR70BQ9oOMyF3v5uhq2FejUYwz46tgVc1t61QUfqu9U5g65nhMembbevdmeZF8B5zplmryotxezJ7ton9FjRQ6jVnQVhyF9pUOIJtpewR4J31v-j"
+  token: "ya29.c.b0Aaekm1JI4NP7QwVeQCLNVOtmnGjCNcfiSimcEcWiUEHBAaY5W2GiyxRoriKg7Hj3S39wfzVP1uRxYgYK0VpHvEQI1wbD8sDj0Gie6n_nidCl2lMSmfJwLVhzdP8f7UhIsptrrav8XBNZ01pL_cB4ASYReiGTIr6yP5R-ie8v7zYUmlkwbpZEJ8L25EEVvRYCnBYBwmmRQWnBGim6r0dRWrG6nZQWbOR5huxRa5xWjtl93X1q8Bz4cA7eXA22808XiyyAZH5m_4kgwY0n3t7o-BnvNu1EvRcr-4Sl-iDMAh2vxyhM4rtLDF3JCKfFxZoJXsU8g_ckm2gG340Cphdzs5WiwwXYVgziMOxBb_nWde3ve7qdsWJ_nlfa1RnFe4hzRUSWzQvhiscy9I7jYpplR6wmfdrJJrntnq42MMS4OOc5Ol9Wm3kgYb92SOtMv3Z-n2i5yQQi33vxsl6B63YhsW4Fkg8WayIRn-S7I_W2FsfIqap5f0ZisziO-eoy493R6Vj-JmqhZhq6mzQ--rfb-543kfM4BV9-1R6djhRXSZFOd7plebFlYU7xssSX-h54UdIqIuepkiZeJq1zUtUVU5XqiJ_gzcQZnJ3FV2vIbuIgBtkVWR9a_Zmixd95r9pntJqU3t_pWX4e_2bvVfXx7bSbRSvy1IhV6k89q7X6mXFf2axShidsjxWZBB3IXSI8iYmZYMvwwo1aJc3f0eVxi_4c74yo5_YfmIhjgF2XyoMWw9bnIUXVemOt6IoJ7t-9cR78u61JqddmBf1abigYoypZloY0vvp7w3qwm9FkzJeQSegJ3liwW15oYQ4zQ4Xpbqqrh2jO9WpVWclWuwfuVoWnBb56746rzZcehRt4j_vx-djedgmzcR_zcjq9s_haM3RX1Jqe8BpvuwvnSxBk16Vi3r5k2wMa9ZhldFg2FFp0xUJVlw48kIb55o5RI9znM-3hkowadfqzhbVgtj4rxvdhhlVt2Vbj9mUWqVQyzkqaJIdf_SU1oWa"
 vm:
   project: "techipool"
   region: "us-central1"
   zone: "a"
   nodes:
-    - name: "techipool-controlplane"
+    - name: "controlplane"
       internal_ip: "10.128.0.3"
       type: "e2-medium"
       os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
+      os_codename: "jammy"
       disk_size: 20
-    - name: "techipool-worker"
+    - name: "worker"
       internal_ip: "10.128.0.6"
       type: "e2-medium"
       os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
+      os_codename: "jammy"
       disk_size: 20
+kubeadm:
+  token: "b0f7b8.8d1767876297d85c"
+  service_cidr: "10.128.0.0/16"
+  pod_network_cidr: "10.128.0.0/16"
+  container_runtime: "containerd"
+

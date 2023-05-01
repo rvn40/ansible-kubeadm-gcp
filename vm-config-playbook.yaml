@@ -1,0 +1,10 @@
+---
+
+- hosts: "k8snodes"
+  become: yes
+  become_user: rivan
+  vars_files:
+    - vars/vars.yaml
+  tasks:
+    - include: tasks/vm_config.yaml
+    #- include: tasks/vm_install.yaml

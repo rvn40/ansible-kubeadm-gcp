@@ -1,0 +1,39 @@
+---
+
+- name: Install docker components
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+- name: Install kubadm components
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  loop:
+    - kubelet
+    - kubeadm
+    - kubectl
+
+- name: Hold kubeadm components
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop:
+    - kubelet
+    - kubeadm
+    - kubectl
+
+- name: Run confirm installation command
+  ansible.builtin.shell: |
+    kubectl version --short --output=yaml
+    
+    kubeadm version
+  args:
+    executable: /bin/bash  
+  become: true
