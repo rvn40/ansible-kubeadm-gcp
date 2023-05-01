@@ -5,5 +5,5 @@
   vars_files:
     - vars/vars.yaml
   tasks:
-    - include_tasks: tasks/vm_config.yaml
-    #- include_tasks: tasks/vm_install.yaml
+    #- include_tasks: tasks/vm_config.yaml
+    - include_tasks: tasks/vm_install.yaml
