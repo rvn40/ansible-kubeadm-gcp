@@ -1,9 +1,6 @@
 ---
 
-- name: Install build-essential for Ubuntu 14.04 only
-  apt: name=build-essential state=present
-  register: vm
 
 - name: Debug
   debug:
-    var: vm
+    var: ansible_distribution_version 
