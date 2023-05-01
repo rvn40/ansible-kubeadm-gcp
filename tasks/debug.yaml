@@ -4,6 +4,8 @@
   ansible.builtin.uri:
     url: 'https://ifconfig.me'
     method: GET
+    return_content: yes
+    body_format: json
   register: getIP
 
 - name: Debug
