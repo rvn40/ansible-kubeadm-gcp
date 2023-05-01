@@ -2,17 +2,19 @@
 
 - name: Reset Kubernetes component
   shell: "kubeadm reset --force --cri-socket=/var/run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
+  when: ansible_hostname == 'controlplane'
   register: reset_cluster
 
 - name: Run init kubeadm
   shell: |
-    kubeadm init --service-cidr {{ service_cidr }} \
-                 --pod-network-cidr {{ pod_network_cidr }} \
-                 --token {{ token }} \
+    kubeadm init --service-cidr {{ kubeadm.service_cidr }} \
+                 --pod-network-cidr {{ kubeadm.pod_network_cidr }} \
+                 --token {{ kubeadm.token }} \
                  --apiserver-advertise-address {{ master_ip }} \
                  --cri-socket=/var/run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
   args:
     executable: /bin/bash
+  when: ansible_hostname == 'controlplane'
   register: init_cluster
 
 - name: Log the init results
