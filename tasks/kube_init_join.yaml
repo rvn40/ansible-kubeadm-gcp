@@ -85,7 +85,7 @@
 
 - name: Debug
   debug:
-    msg: "{{ join_cluster_command.stdout }}"
+    var: join_cluster_command.stdout
   when: ansible_hostname == 'controlplane'
 
 - name: Run join cluster command for worker
