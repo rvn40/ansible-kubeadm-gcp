@@ -85,8 +85,9 @@
 
 - name: Debug
   debug:
-    var: join_cluster_command
+    var: join_cluster_command.stdout
   when: ansible_hostname == 'controlplane'
+  register: join_cluster_command_stdout
 
 - name: Reset Kubernetes worker component
   become_user: root
@@ -97,7 +98,7 @@
 - name: Run join cluster command for worker
   shell: "echo $JOIN_CLUSTER_COMMAND > files/join_cluster_command.log"
   environment:
-    JOIN_CLUSTER_COMMAND: "{{ join_cluster_command }}"
+    JOIN_CLUSTER_COMMAND: "{{ join_cluster_command_stdout }}"
   args:
     executable: /bin/bash
   become_user: root
