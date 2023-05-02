@@ -85,7 +85,7 @@
 
 - name: Debug
   debug:
-    var: join_cluster_command.stdout
+    var: join_cluster_command
   when: ansible_hostname == 'controlplane'
 
 - name: Reset Kubernetes worker component
