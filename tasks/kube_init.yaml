@@ -31,7 +31,6 @@
   shell: |
     kubeadm init --service-cidr {{ kubeadm.service_cidr }} \
                  --pod-network-cidr {{ kubeadm.pod_network_cidr }} \
-                 --token {{ kubeadm.token }} \
                  --apiserver-advertise-address {{ getIP.content }} \
                  --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
   args:
