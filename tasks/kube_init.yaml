@@ -51,18 +51,21 @@
     path: files/init_cluster.log
     state: touch
     mode: '0755'
+  when: ansible_hostname == 'controlplane'
 
 - name: Log the init results
   shell: |
     INIT_CLUSTER="{{ init_cluster }}"
   
     "echo $INIT_CLUSTER > files/init_cluster.log"
+  when: ansible_hostname == 'controlplane'
 
 - name: Create kubernetes config directory
   file:
     path: "/home/rivan/.kube/"
     state: directory
   become_user: "{{ansible_user}}"
+  when: ansible_hostname == 'controlplane'
 
 - name: Copy admin.conf to Home directory
   copy:
@@ -72,4 +75,6 @@
     group: "rivan"
     mode: 0755
     remote_src: true
-  when: init_cluster is succeeded
+  when: 
+    - init_cluster is succeeded
+    - ansible_hostname == 'controlplane'
