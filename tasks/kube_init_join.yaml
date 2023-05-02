@@ -88,8 +88,16 @@
     var: join_cluster_command.stdout
   when: ansible_hostname == 'controlplane'
 
+- name: Reset Kubernetes worker component
+  become_user: root
+  shell: "kubeadm reset --force --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
+  when: ansible_hostname == 'worker'
+  register: reset_cluster
+
 - name: Run join cluster command for worker
-  shell: "{{ join_cluster_command.stdout }}"
+  shell: "echo $JOIN_CLUSTER_COMMAND > files/join_cluster_command.log"
+  environment:
+    JOIN_CLUSTER_COMMAND: "{{ join_cluster_command.stdout }}"
   args:
     executable: /bin/bash
   become_user: root
