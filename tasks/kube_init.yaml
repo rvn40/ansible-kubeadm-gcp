@@ -33,7 +33,6 @@
                  --pod-network-cidr {{ kubeadm.pod_network_cidr }} \
                  --token {{ kubeadm.token }} \
                  --apiserver-advertise-address {{ ansible_default_ipv4.address }} \
-                 --bind-address="0.0.0.0" \
                  --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
   args:
     executable: /bin/bash
