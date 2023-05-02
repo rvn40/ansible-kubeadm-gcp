@@ -83,23 +83,28 @@
   when: ansible_hostname == 'controlplane'
   register: join_cluster_command
 
-- name: Run join cluster command for worker
-  shell: "{{ join_cluster_command.stdout }}"
-  args:
-    executable: /bin/bash
-  become_user: root
-  when: ansible_hostname == 'worker'
-  register: init_cluster
+- name: Debug
+  debug:
+    msg: "{{ join_cluster_command.stdout }}"
+  when: ansible_hostname == 'controlplane'
 
-- name: Touch the log file
-  ansible.builtin.file:
-    path: files/init_cluster.log
-    state: touch
-    mode: '0755'
-  when: ansible_hostname == 'worker'
-
-- name: Log the join results
-  shell: "echo $JOIN_CLUSTER > files/join_cluster.log"
-  environment:
-    JOIN_CLUSTER: "{{ join_cluster }}"
-  when: ansible_hostname == 'worker'
+#- name: Run join cluster command for worker
+#  shell: "{{ join_cluster_command.stdout }}"
+#  args:
+#    executable: /bin/bash
+#  become_user: root
+#  when: ansible_hostname == 'worker'
+#  register: init_cluster
+#
+#- name: Touch the log file
+#  ansible.builtin.file:
+#    path: files/init_cluster.log
+#    state: touch
+#    mode: '0755'
+#  when: ansible_hostname == 'worker'
+#
+#- name: Log the join results
+#  shell: "echo $JOIN_CLUSTER > files/join_cluster.log"
+#  environment:
+#    JOIN_CLUSTER: "{{ join_cluster }}"
+#  when: ansible_hostname == 'worker'
