@@ -54,10 +54,9 @@
   when: ansible_hostname == 'controlplane'
 
 - name: Log the init results
-  shell: |
-    INIT_CLUSTER="{{ init_cluster }}"
-  
-    "echo $INIT_CLUSTER > files/init_cluster.log"
+  shell: "echo $INIT_CLUSTER > files/init_cluster.log"
+  environment:
+    INIT_CLUSTER: "{{ init_cluster }}"
   when: ansible_hostname == 'controlplane'
 
 - name: Create kubernetes config directory
