@@ -53,9 +53,12 @@
     mode: '0755'
 
 - name: Log the init results
-  shell:  echo "{{ init_cluster }} > files/init_cluster.log"
+  shell: |
+    INIT_CLUSTER="{{ init_cluster }}"
+  
+    "echo $INIT_CLUSTER > files/init_cluster.log"
 
-- name: Copy kubernetes config directory
+- name: Create kubernetes config directory
   file:
     path: "/home/rivan/.kube/"
     state: directory
@@ -68,4 +71,5 @@
     owner: "rivan"
     group: "rivan"
     mode: 0755
+    remote_src: true
   when: init_cluster is succeeded
