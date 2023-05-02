@@ -81,9 +81,9 @@
 - name: Print join command
   shell: "kubeadm token create --print-join-command > files/join_cluster.log"
   when: ansible_hostname == 'controlplane'
+  register: join_cluster_command
 
-- name: Fetch join cluster file
-  ansible.builtin.fetch:
-    src: files/join_cluster.log
-    dest: files/join_cluster.log
+- name: Debug
+  debug:
+    msg: "{{ join_cluster_command }}"
   when: ansible_hostname == 'controlplane'
