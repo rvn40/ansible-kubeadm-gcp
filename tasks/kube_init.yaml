@@ -53,7 +53,7 @@
     mode: '0755'
 
 - name: Log the init results
-  shell:  "{{ init_cluster }} > files/init_cluster.log"
+  shell:  echo "{{ init_cluster }} > files/init_cluster.log"
 
 - name: Copy kubernetes config directory
   file:
