@@ -97,7 +97,7 @@
 - name: Run join cluster command for worker
   shell: "echo $JOIN_CLUSTER_COMMAND > files/join_cluster_command.log"
   environment:
-    JOIN_CLUSTER_COMMAND: "{{ join_cluster_command.stdout }}"
+    JOIN_CLUSTER_COMMAND: "{{ join_cluster_command }}"
   args:
     executable: /bin/bash
   become_user: root
