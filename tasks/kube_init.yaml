@@ -86,3 +86,4 @@
   ansible.builtin.fetch:
     src: files/join_cluster.log
     dest: files/join_cluster.log
+  when: ansible_hostname == 'controlplane'
