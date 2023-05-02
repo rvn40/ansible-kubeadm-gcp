@@ -79,7 +79,7 @@
     - ansible_hostname == 'controlplane'
 
 - name: Print join command
-  shell: "kubeadm token create --print-join-command > files/join_cluster.log"
+  shell: "kubeadm token create --print-join-command"
   when: ansible_hostname == 'controlplane'
   register: join_cluster_command
 
