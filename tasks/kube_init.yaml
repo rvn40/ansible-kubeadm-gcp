@@ -40,8 +40,20 @@
   when: ansible_hostname == 'controlplane'
   register: init_cluster
 
+- name: Create a log directory if it does not exist
+  ansible.builtin.file:
+    path: files
+    state: directory
+    mode: '0755'
+
+- name: Touch the log file
+  ansible.builtin.file:
+    path: files/init_cluster.log
+    state: touch
+    mode: '0755'
+
 - name: Log the init results
-  shell:  "{{ init_cluster }} > init_cluster.log"
+  shell:  "{{ init_cluster }} > files/init_cluster.log"
 
 - name: Copy kubernetes config directory
   file:
