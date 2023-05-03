@@ -85,25 +85,25 @@
 - name: Fetch join command file
   ansible.builtin.fetch:
     src: files/join_command.log
-    dest: /home/"{{ansible_user}}"/files
+    dest: files/
     flat: yes
 
-- name: Copy join command file
-  copy:
-    src: files/join_command.log
-    dest: "/home/{{ansible_user}}/files"
-    owner: "rivan"
-    group: "rivan"
-    mode: 0755
-    remote_src: true
-  when: 
-    - ansible_hostname == 'worker'
-
-- name: Reset Kubernetes worker component
-  become_user: root
-  shell: "kubeadm reset --force --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
-  when: ansible_hostname == 'worker'
-  register: reset_cluster
+#- name: Copy join command file
+#  copy:
+#    src: files/join_command.log
+#    dest: "/home/{{ansible_user}}/files"
+#    owner: "rivan"
+#    group: "rivan"
+#    mode: 0755
+#    remote_src: true
+#  when: 
+#    - ansible_hostname == 'worker'
+#
+#- name: Reset Kubernetes worker component
+#  become_user: root
+#  shell: "kubeadm reset --force --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
+#  when: ansible_hostname == 'worker'
+#  register: reset_cluster
 
 #- name: Run join cluster command for worker
 #  shell: echo $JOIN_CLUSTER_COMMAND > files/join_cluster_command.log
