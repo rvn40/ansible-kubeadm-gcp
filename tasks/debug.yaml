@@ -7,7 +7,10 @@
     return_content: true
   register: getIP
 
+- name: print
+  shell: cat files/join_command.log
+  register: stdout 
+
 - name: Debug
   debug:
-    var: ansible_default_ipv4.address
-  when: ansible_hostname == 'controlplane'
+    var: stdout
