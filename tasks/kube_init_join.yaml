@@ -1,129 +1,130 @@
 ---
 
-#- name: Get ip
-#  ansible.builtin.uri:
-#    url: 'https://ifconfig.me/ip'
-#    method: GET
-#    return_content: true
-#  register: getIP
-#  when: ansible_hostname == 'controlplane'
-#
-#- name: Checking file config containerd exist
-#  stat: path=/etc/containerd/config.toml
-#  register: containerd_config
-#
-#- name: Move config.toml
-#  command: mv /etc/containerd/config.toml /etc/containerd/config.toml.bk
-#  when: containerd_config.stat.exists
-#
-#- name: Make sure a containerd service unit is running
-#  ansible.builtin.systemd:
-#    state: restarted
-#    name: containerd
-#
-#- name: Reset Kubernetes component
-#  become_user: root
-#  shell: "kubeadm reset --force --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
-#  when: ansible_hostname == 'controlplane'
-#  register: reset_cluster
-#
-#- name: Run init kubeadm
-#  shell: |
-#    kubeadm init --service-cidr {{ kubeadm.service_cidr }} \
-#                 --pod-network-cidr {{ kubeadm.pod_network_cidr }} \
-#                 --token {{ kubeadm.token }} \
-#                 --apiserver-advertise-address {{ ansible_default_ipv4.address }} \
-#                 --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
-#  args:
-#    executable: /bin/bash
-#  become_user: root
-#  when: ansible_hostname == 'controlplane'
-#  register: init_cluster
-#
-#- name: Create a log directory if it does not exist
-#  ansible.builtin.file:
-#    path: files
-#    state: directory
-#    mode: '0755'
-#
-#- name: Touch the log file
-#  ansible.builtin.file:
-#    path: files/init_cluster.log
-#    state: touch
-#    mode: '0755'
-#  when: ansible_hostname == 'controlplane'
-#
-#- name: Log the init results
-#  shell: "echo $INIT_CLUSTER > files/init_cluster.log"
-#  environment:
-#    INIT_CLUSTER: "{{ init_cluster }}"
-#  when: ansible_hostname == 'controlplane'
-#
-#- name: Create kubernetes config directory
-#  file:
-#    path: "/home/rivan/.kube/"
-#    state: directory
-#  become_user: "{{ansible_user}}"
-#  when: ansible_hostname == 'controlplane'
-#
-#- name: Copy admin.conf to Home directory
-#  copy:
-#    src: "/etc/kubernetes/admin.conf"
-#    dest: "/home/rivan/.kube/config"
-#    owner: "rivan"
-#    group: "rivan"
-#    mode: 0755
-#    remote_src: true
-#  when: 
-#    - init_cluster is succeeded
-#    - ansible_hostname == 'controlplane'
-#
-#- name: Print join command
-#  shell: "kubeadm token create --print-join-command > files/join_command.log"
-#  when: ansible_hostname == 'controlplane'
-#
-#- name: Fetch join command file
-#  ansible.builtin.fetch:
-#    src: files/join_command.log
-#    dest: files/
-#    flat: yes
-#  when: ansible_hostname == 'controlplane'
+- name: Get ip
+  ansible.builtin.uri:
+    url: 'https://ifconfig.me/ip'
+    method: GET
+    return_content: true
+  register: getIP
+  when: ansible_hostname == 'controlplane'
 
-- name: Copy join command file
+- name: Checking file config containerd exist
+  stat: path=/etc/containerd/config.toml
+  register: containerd_config
+
+- name: Move config.toml
+  command: mv /etc/containerd/config.toml /etc/containerd/config.toml.bk
+  when: containerd_config.stat.exists
+
+- name: Make sure a containerd service unit is running
+  ansible.builtin.systemd:
+    state: restarted
+    name: containerd
+
+- name: Reset Kubernetes component
+  become_user: root
+  shell: "kubeadm reset --force --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
+  when: ansible_hostname == 'controlplane'
+  register: reset_cluster
+
+- name: Run init kubeadm
+  shell: |
+    kubeadm init --service-cidr {{ kubeadm.service_cidr }} \
+                 --pod-network-cidr {{ kubeadm.pod_network_cidr }} \
+                 --token {{ kubeadm.token }} \
+                 --apiserver-advertise-address {{ ansible_default_ipv4.address }} \
+                 --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
+  args:
+    executable: /bin/bash
+  become_user: root
+  when: ansible_hostname == 'controlplane'
+  register: init_cluster
+
+- name: Create a log directory if it does not exist
+  ansible.builtin.file:
+    path: files
+    state: directory
+    mode: '0755'
+
+- name: Touch the log file
+  ansible.builtin.file:
+    path: files/init_cluster.log
+    state: touch
+    mode: '0755'
+  when: ansible_hostname == 'controlplane'
+
+- name: Log the init results
+  shell: "echo $INIT_CLUSTER > files/init_cluster.log"
+  environment:
+    INIT_CLUSTER: "{{ init_cluster }}"
+  when: ansible_hostname == 'controlplane'
+
+- name: Create kubernetes config directory
+  file:
+    path: "/home/rivan/.kube/"
+    state: directory
+  become_user: "{{ansible_user}}"
+  when: ansible_hostname == 'controlplane'
+
+- name: Copy admin.conf to Home directory
   copy:
-    src: files/join_command.log
-    dest: "/home/{{ansible_user}}/files"
+    src: "/etc/kubernetes/admin.conf"
+    dest: "/home/rivan/.kube/config"
     owner: "rivan"
     group: "rivan"
     mode: 0755
+    remote_src: true
+  when: 
+    - init_cluster is succeeded
+    - ansible_hostname == 'controlplane'
+
+- name: Print join command
+  shell: | 
+    echo -e '#!/bin/bash\n\n' > files/join_command.sh
+    
+    kubeadm token create --print-join-command >> files/join_command.sh
+  when: ansible_hostname == 'controlplane'
+
+- name: Fetch join command file
+  ansible.builtin.fetch:
+    src: files/join_command.sh
+    dest: files/
+    flat: yes
+  when: ansible_hostname == 'controlplane'
+
+- name: Copy join command file
+  copy:
+    src: files/join_command.sh
+    dest: files/join_command.sh
+    owner: "rivan"
+    group: "rivan"
+    mode: a+x
   when: 
     - ansible_hostname == 'worker'
 
-#- name: Reset Kubernetes worker component
-#  become_user: root
-#  shell: "kubeadm reset --force --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
-#  when: ansible_hostname == 'worker'
-#  register: reset_cluster
+- name: Reset Kubernetes worker component
+  become_user: root
+  shell: "kubeadm reset --force --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock"
+  when: ansible_hostname == 'worker'
+  register: reset_cluster
 
-#- name: Run join cluster command for worker
-#  shell: echo $JOIN_CLUSTER_COMMAND > files/join_cluster_command.log
-#  environment:
-#    JOIN_CLUSTER_COMMAND: "{{ join_cluster_command.stdout }}"
-#  args:
-#    executable: /bin/bash
-#  become_user: root
-#  when: ansible_hostname == 'worker'
-#  register: join_cluster
-#
-#- name: Touch the log file
-#  ansible.builtin.file:
-#    path: files/join_cluster.log
-#    state: touch
-#    mode: '0755'
-#  when: ansible_hostname == 'worker'
-#
-#- name: Log the join results
-#  shell: "echo $JOIN_CLUSTER > files/join_cluster.log"
-#  environment:
-#    JOIN_CLUSTER: "{{ join_cluster }}"
-#  when: ansible_hostname == 'worker'
+- name: Run join cluster command for worker
+  shell: files/join_command.sh
+  args:
+    executable: /bin/bash
+  become_user: root
+  when: ansible_hostname == 'worker'
+  register: join_cluster
+
+- name: Touch the log file
+  ansible.builtin.file:
+    path: files/join_cluster.log
+    state: touch
+    mode: '0755'
+  when: ansible_hostname == 'worker'
+
+- name: Log the join results
+  shell: "echo $JOIN_CLUSTER > files/join_cluster.log"
+  environment:
+    JOIN_CLUSTER: "{{ join_cluster }}"
+  when: ansible_hostname == 'worker'
