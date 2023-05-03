@@ -87,6 +87,7 @@
     src: files/join_command.log
     dest: files/
     flat: yes
+  when: ansible_hostname == 'controlplane'
 
 #- name: Copy join command file
 #  copy:
