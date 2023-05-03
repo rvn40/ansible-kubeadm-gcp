@@ -80,7 +80,7 @@
 
 - name: Print join command
   shell: | 
-    echo -e '#!/bin/bash\n\n' > files/join_command.sh
+    echo '#!/bin/bash\n\n' > files/join_command.sh
     
     kubeadm token create --print-join-command >> files/join_command.sh
   when: ansible_hostname == 'controlplane'
