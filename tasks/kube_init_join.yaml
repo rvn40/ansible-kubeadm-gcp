@@ -89,7 +89,7 @@
 #    flat: yes
 #  when: ansible_hostname == 'controlplane'
 
-- include_task: tasks/debug.yaml
+- include_tasks: tasks/debug.yaml
 
 #- name: Copy join command file
 #  copy:
