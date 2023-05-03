@@ -95,7 +95,7 @@
 - name: Copy join command file
   copy:
     src: files/join_command.sh
-    dest: files/join_command.sh
+    dest: files
     owner: "rivan"
     group: "rivan"
     mode: a+x
