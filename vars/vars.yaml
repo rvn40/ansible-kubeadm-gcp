@@ -24,7 +24,7 @@ vm:
       disk_size: 20
 kubeadm:
   token: "b0f7b8.8d1767876297d85c"
-  service_cidr: "10.128.0.0/16"
-  pod_network_cidr: "10.128.0.0/16"
+  service_cidr: "10.128.16.0/16"
+  pod_network_cidr: "10.128.32.0/16"
   container_runtime: "containerd"
 
