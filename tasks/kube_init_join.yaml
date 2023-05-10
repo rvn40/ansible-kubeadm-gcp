@@ -36,7 +36,8 @@
                  --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
   args:
     executable: /bin/bash
-  become_user: root
+  become_user: rivan
+  become: yes
   when: ansible_hostname == 'controlplane'
   register: init_cluster
 
