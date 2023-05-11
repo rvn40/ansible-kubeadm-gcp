@@ -27,7 +27,11 @@
     loop_var: vm_instance
   register: vm
 
-- debug: msg: "{{ vm }}"
+- debug: 
+    var: vm
+
+- debug: 
+    var: vm_json.results
 
 - name: Remove file (delete file)
   ansible.builtin.file:
