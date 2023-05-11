@@ -5,7 +5,7 @@ auth:
   kind: "serviceaccount"
   email: "439901317535-compute@developer.gserviceaccount.com"
   file: "files/serviceaccounts/techipool-439901317535-compute.pem"
-  token: "ya29.c.b0Aaekm1JeIDUUcIvcDsjCGFmlf6AxyInyQhdfgyV-xqXxIOnWcmwrvBLgIMcM4EZ6E8hRnW1FUDo1udcgFt8SF666pGx_VUBbE_VdMU53Cfub2JGbu3MPLo_ago9uWugrLzkKy41Ip-FcSubPARsusdgd90QfzV5YB1UAn7Q9K0g9AOl878nstiJNTZ56Xy4vXIiIo4rF3RqpwHmPIYpY4ixuPJSc4N_C-upA6L4HwAmiGmHXVPGOq45MaOzwbkF5fPG4wlwRadLCYWDpGn9txa28WB0a-DmWSxcEazewXfgpEUiWxLBkhqQj7uAI16yU4JSwLZzfHgT339A1sujx_nhXik_cpjx6Z2bW3o4c6bF25SYfS-yXpOyntOmQiazkzOXI3b0Fvmx-pzYOiFnnyaShwb72fnnq9k5RnSVssgzJyoO_SuXJag8wO9SBInY_7UefoyVuoyYyhbB94juulhMtuWWsw0BmtIJlzI5_pl8OUdmO0W3gSwIumjhxs2bjJ3WBh37-j165IxzRrzkilrkg464FmhFwfZ6Jz_JkifSo0f3ludUqJqrwmUtxMB_ej5FuJdUJw-YfzmtgdW9k-Ff_F_W_Ym_5qsO8RUWe7Oj2m_dYj1tZtFy4cJ_XOfnUQ9Im0nRl9d9SX0SBRv1oWzyftn98ZVqp15rpe-0y4VuWjRmx1Z86t-n4Wt99nurfnW9ZQl7xlczBmBsXxvkfxpx7qx38nSRRgwBaxWlIJuXMhRX7vl98qwYreac9zVr0s1o1JF_Jvx44p04ZrpbQlpdp70pV4M5sswqacY19lMIgw2Ilqs6XZZBrufJuWO4nbgs6ZsR5MWihcM-Yw5ml1aI5Wxh2uJnRt-w0Zqz1aalevRhW6w0WQuBZRbBzrvIBh2yI_c2Md0Q-QoyIehYYgt7ZX7nyRm--O6ndBfRxefvYusm-Yhl57eOU-4coobS4r5kbaeJYJSe5uuqQJSZS8SkRt5-6p_mr87XqxpVW7U9_9cggYuRdjkR"
+  token: "ya29.c.b0Aaekm1Lgl_w5gm26ovjylZm0mGeNIfGouNnluI5NepC14amp2W-CiEijJmh_JH37bnHWAS2XuHHCGd5hbWeHgjcSzKa4Z85-4iFU7krqpi2Yto9YKZSXU0Juk-zsh2G57ynl9J_NKHxzgJ85Ic74Sd5ZAJ8jsEZaXZZzYsJboocEo-kNJG__3j5Jdq_KtxQbPcixrENOJ_T7qVG7F_I2pQYeHmhwVwRZ5tqLC8MHxpTSPclw56wAVW6FBKS6DZWEz_yMByxs8PEJJYi66E__9qfaduhvQ-bvYkAetD-ArciTZHpEDpgDv8T63HJoPBFTqmnNEGXVnvkH340Dcdy-Jtq8B2Ziticfc8BYzb89nV_nzgQ5xiIYe6OXsqbnjOvWs4JMXggBrkwtwdOQZk6Z06qIvRkeJSooZivq0972nfe8ORiXw9baetb0QeSz-6jtZzRRqhu0-RcfUnm7zeWVj-5J5Zb-wS4o0eWwcqXmthrmXew_U3_ZU0W6kYq5h53jBfZ0XMz8OrcRsMktMFZViUsXhQIQZQ_VcbeF43zkcqS875oQmoksult-VtvZ-gstd6j4xu9wkmeYesQ7v85v3dQdBhn3kybiWklx452tZIv3oWsyS1r4yUz7mq35rbtJ5Vk-zVx3r5cvxo7Znd2SQkxO9QrUBabzzvIknwsdSj8nIpbk_Q-dRVFf3rWliFrvJ875-Sy5wgIghIyk-1-a2Qg9mxnyq4qYYBO6wfJVxtl41Z08dMvZxJZ-JbQpl8-RWVVSehvz16xp85Rjri-gXfs8yWMYaYYVgYc47blyb8nxhjrqkpwUYF4Q_6ds5kbqMqcwqewk7zuqIYdwURXpkIFh_xIUIWy0s14QtvgYO3e40to2YMgX7azIwqXl8Jv0oXnMeVRlq_FzumdOYeBzQ5OxjI0lUf9w75WebkS9a2Zbv9f5jmlQ2bkXldg4q5ZgRO5OdqobYrMgvpIc3B7RXqFbwcgstwfW59FmzulX9s-h-Mur98wVZm5"
 vm:
   project: "techipool" 
   region: "us-central1"
@@ -13,13 +13,13 @@ vm:
   nodes:
     - name: "controlplane"
       internal_ip: "10.128.0.3"
-      type: "e2-medium"
+      type: "e2-highcpu-4"
       os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
       os_codename: "jammy"
       disk_size: 20
     - name: "worker"
       internal_ip: "10.128.0.6"
-      type: "e2-medium"
+      type: "e2-highcpu-4"
       os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
       os_codename: "jammy"
       disk_size: 20
