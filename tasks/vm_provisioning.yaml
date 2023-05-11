@@ -27,13 +27,15 @@
     loop_var: vm_instance
   register: vm
 
-#- name: Remove file (delete file)
-#  ansible.builtin.file:
-#    path: "{{ vm_instance.dest }}"
-#    state: absent
-#  loop: "{{ vm_json.results }}"
-#  loop_control:
-#    loop_var: vm_instance
+- debug: msg: "{{ vm }}"
+
+- name: Remove file (delete file)
+  ansible.builtin.file:
+    path: "{{ vm_instance.dest }}"
+    state: absent
+  loop: "{{ vm_json.results }}"
+  loop_control:
+    loop_var: vm_instance
 
 - name: Basic hosts template  
   template:  
