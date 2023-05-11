@@ -13,13 +13,13 @@ vm:
   nodes:
     - name: "controlplane"
       internal_ip: "10.128.0.3"
-      type: "e2-highcpu-4"
+      type: "e2-medium"
       os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
       os_codename: "jammy"
       disk_size: 20
     - name: "worker"
       internal_ip: "10.128.0.6"
-      type: "e2-highcpu-4"
+      type: "e2-medium"
       os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
       os_codename: "jammy"
       disk_size: 20
