@@ -48,13 +48,13 @@
 
 - name: Touch the log file
   ansible.builtin.file:
-    path: files/init_cluster.log
+    path: files/logs/init_cluster.log
     state: touch
     mode: '0755'
   when: ansible_hostname == 'controlplane'
 
 - name: Log the init results
-  shell: "echo $INIT_CLUSTER > files/init_cluster.log"
+  shell: "echo $INIT_CLUSTER > files/logs/init_cluster.log"
   environment:
     INIT_CLUSTER: "{{ init_cluster }}"
   when: ansible_hostname == 'controlplane'
@@ -118,13 +118,13 @@
 
 - name: Touch the log file
   ansible.builtin.file:
-    path: files/join_cluster.log
+    path: files/logs/join_cluster.log
     state: touch
     mode: '0755'
   when: ansible_hostname == 'worker'
 
 - name: Log the join results
-  shell: "echo $JOIN_CLUSTER > files/join_cluster.log"
+  shell: "echo $JOIN_CLUSTER > files/logs/join_cluster.log"
   environment:
     JOIN_CLUSTER: "{{ join_cluster }}"
   when: ansible_hostname == 'worker'
