@@ -3,8 +3,8 @@
 
 - name: Basic vm template  
   template:  
-    src: files/vm.json.j2
-    dest: "files/vm-{{ vm_node_idx }}.json"
+    src: files/templates/vm.json.j2
+    dest: "files/payloads/vm-{{ vm_node.name }}-{{ vm_node_idx }}.json"
   loop: "{{ vm.nodes }}"
   loop_control:
     loop_var: vm_node
@@ -13,7 +13,7 @@
 
 - name: Create worker and controlplane
   ansible.builtin.uri:
-    url: 'https://www.googleapis.com/compute/v1/projects/techipool/zones/us-central1-a/instances'
+    url: "https://www.googleapis.com/compute/v1/projects/techipool/zones/us-central1-a/instances"
     method: POST
     src: "{{ vm_instance.dest }}"
     body_format: json
@@ -37,7 +37,7 @@
 
 - name: Basic hosts template  
   template:  
-    src: files/hosts.j2
+    src: files/templates/hosts.j2
     dest: "hosts"
   
 - name: Append group on inventory
@@ -52,7 +52,7 @@
   ansible.builtin.lineinfile:
     path: hosts
     insertafter: \[k8snodes\]
-    line: "{{ vm_instance.vm_node.name }} ansible_host={{ vm_instance.vm_node.internal_ip }} ansible_user=rivan ansible_ssh_private_key_file=\"files/gcloud.pem\" ansible_connection=ssh ansible_ssh_extra_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=\"/usr/bin/python3\""
+    line: "{{ vm_instance.vm_node.name }} ansible_host={{ vm_instance.vm_node.internal_ip }} ansible_user=rivan ansible_ssh_private_key_file=\"files/ssh/gcloud.pem\" ansible_connection=ssh ansible_ssh_extra_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=\"/usr/bin/python3\""
   loop: "{{ vm_json.results }}"
   loop_control:
     loop_var: vm_instance

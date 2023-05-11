@@ -1,3 +1,4 @@
-files/*.log
-files/*.pem
-files/*.json
+files/logs/*.log
+files/serviceaccounts/*.pem
+files/ssh/*.pem
+files/payloads/*.json
