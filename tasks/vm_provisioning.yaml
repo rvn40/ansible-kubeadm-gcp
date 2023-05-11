@@ -4,7 +4,7 @@
 - name: Basic vm template  
   template:  
     src: files/templates/vm.json.j2
-    dest: "files/payloads/vm-{{ vm_node.name }}-{{ vm_node_idx }}.json"
+    dest: "files/payloads/vm{{ vm_node.name }}{{ vm_node_idx }}.json"
   loop: "{{ vm.nodes }}"
   loop_control:
     loop_var: vm_node
