@@ -28,6 +28,7 @@
   register: reset_cluster
 
 - name: Run init kubeadm
+  become_user: root
   shell: |
     kubeadm init --service-cidr {{ kubeadm.service_cidr }} \
                  --pod-network-cidr {{ kubeadm.pod_network_cidr }} \
@@ -36,13 +37,18 @@
                  --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
   args:
     executable: /bin/bash
-  become_user: root
   when: ansible_hostname == 'controlplane'
   register: init_cluster
 
 - name: Create a log directory if it does not exist
   ansible.builtin.file:
     path: files
+    state: directory
+    mode: '0755'
+
+- name: Create a log directory if it does not exist
+  ansible.builtin.file:
+    path: files/logs
     state: directory
     mode: '0755'
 
