@@ -13,7 +13,7 @@
       "diskEncryptionKey": {},
       "initializeParams": {
         "diskSizeGb": "{{ vm_node.disk_size }}",
-        "diskType": "projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}/diskTypes/pd-balanced",
+        "diskType": "projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm_node.zone }}/diskTypes/pd-balanced",
         "labels": {},
         "sourceImage": "{{ vm_node.os }}"
       },
@@ -29,9 +29,14 @@
   "labels": {
     "ec-src": "vm_add-rest"
   },
-  "machineType": "projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}/machineTypes/{{ vm_node.type }}",
+  "machineType": "projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm_node.zone }}/machineTypes/{{ vm_node.type }}",
   "metadata": {
-    "items": []
+    "items": [
+      {
+        "key": "startup-script",
+        "value": "#!/bin/bash\n\n# Define the username and password\nusername=\"ansible\"\npassword=\"ansible123\"\n\n# Check if the user already exists\nif id \"$username\" >/dev/null 2>&1; then\n  echo \"User $username already exists.\"\nelse\n  # Create the user\n  useradd -m -s /bin/bash \"$username\"\n  echo \"$username:$password\" | chpasswd\n  usermod -a -G sudo \"$username\"\n  sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config\n  echo \"User $username created with password $password.\"\nfi"
+      }
+    ]
   },
   "name": "{{ vm_node.name }}",
   "networkInterfaces": [
@@ -61,7 +66,7 @@
   },
   "serviceAccounts": [
     {
-      "email": "439901317535-compute@developer.gserviceaccount.com",
+      "email": "{{ auth.email }}",
       "scopes": [
         "https://www.googleapis.com/auth/devstorage.read_only",
         "https://www.googleapis.com/auth/logging.write",
@@ -78,7 +83,9 @@
     "enableVtpm": true
   },
   "tags": {
-    "items": []
+    "items": [
+      "default-allowall-internal"
+    ]
   },
-  "zone": "projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm.zone }}"
+  "zone": "projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm_node.zone }}"
 }

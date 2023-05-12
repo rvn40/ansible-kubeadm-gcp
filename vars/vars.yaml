@@ -2,30 +2,30 @@
 
 
 auth:
-  kind: "serviceaccount"
-  email: "439901317535-compute@developer.gserviceaccount.com"
-  file: "files/serviceaccounts/techipool-439901317535-compute.pem"
-  token: "ya29.c.b0Aaekm1Kamy7HsYSFFlpQsushU71fuZ2KSINaD-DWxTSFopLVaQv7CWxgBAtLKmKL_rsPF3k90HqxJZVeOXR1BWYrOqg2hPurv9vYKDragDDOeT669S4RNdEVVtKyNvo0s0prza2vojcdJf8uADbGPJwqAiHDRnhPqSrsrDmYXbKsgaIb63Davi4ms7XotsKj-JimzYAoPg7v_yMlGKWLtLcV6kSNYQUfrbTqGBx5sutiBZqWMic0RiyuqJOjoCidwXmhmegALK9ghiJJMU9V3LDceZlp02GYYpkXyQnDG8b4i_B-iMimBX_jK2x-uHax0oQ3LoCg9gH339D_4f4spg94tMozst6s-Babq5Xjg3oep61akrI2zsyQ4ltzoIiMVc96pty4xboFY-doiSpVF3ud1gZRdapcZaz2MS2vx06ed2U9ByaqIzQxZZIYWod7od4nWy0ugzFa7m0Ss7-rpvVRMhn7U6Shoot7hqR83gR4-keymrzZMl_4SFBtoe6ny7X8FZRvRObrafkOeqsw0Okl7d1vad_XmiWZIeJyJlYvco0nMifFwohnowibVages_huk6pbaqqXIQd5z3hv1ziqY8iSIReh7Zcvu80Z64_x0J7ydRBgQOFO4SjdQqYzboQlV7We7VtFgXZ-_X2y1iMaojxnMc0cgk-l0eJdw0f2Wqihn7ZBuolOhu_IiMb0q2M3wyOc6gec27qunajvc824leeuIyIr2S_u6sW-ixo7S5uhuqhhaY3ZJayaw8zbcrRFQrw2JFI7VsMlIuY1SajZj5sW85k-zJJ_paY6Mn4W4UYJ5o9swoJkut_QQgm7Xtlalk1tqa_4c8FbfawUbkZOdidqScBd31WUcvnZQtqkMtOSdm_twj1b2B2VjXwjvlQOo54qod5px42pmnr7Rd1OxWwuZV1jeuM-t1ZdU2fBSlR63lzBv7jRO6ezm_Z7pS2ZeiR_z3hzZ1eFIgRa-liWB9Z1ZeJM7MOe9tkbJMJve8ZctMfFQhZ"
+  kind: ""
+  email: ""
+  file: ""
+  token: ""
 vm:
-  project: "techipool" 
-  region: "us-central1"
-  zone: "a"
+  project: "devops-project-253405" 
+  region: "us-west1"
   nodes:
-    - name: "controlplane"
-      internal_ip: "10.128.0.3"
-      type: "e2-standard-2"
+    - name: "dev-km1"
+      zone: "a"
+      internal_ip: "10.138.0.3"
+      type: "e2-highcpu-4"
       os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
       os_codename: "jammy"
       disk_size: 20
-    - name: "worker"
-      internal_ip: "10.128.0.6"
+    - name: "dev-kw1"
+      zone: "a"
+      internal_ip: "10.138.0.6"
       type: "e2-highcpu-4"
       os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
       os_codename: "jammy"
       disk_size: 20
 kubeadm:
   token: "b0f7b8.8d1767876297d85c"
-  service_cidr: "10.128.16.0/16"
-  pod_network_cidr: "10.128.32.0/16"
+  service_cidr: "10.138.16.0/16"
+  pod_network_cidr: "10.138.32.0/16"
   container_runtime: "containerd"
-

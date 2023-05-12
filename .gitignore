@@ -2,3 +2,4 @@ files/logs/*.log
 files/serviceaccounts/*.pem
 files/ssh/*.pem
 files/payloads/*.json
+vars/secrets.yaml
