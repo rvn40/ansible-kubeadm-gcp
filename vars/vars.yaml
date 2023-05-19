@@ -10,14 +10,14 @@ vm:
   project: "devops-project-253405" 
   region: "us-west1"
   nodes:
-    - name: "dev-km1"
+    - name: "controlplane"
       zone: "a"
       internal_ip: "10.138.0.3"
       type: "e2-highcpu-4"
       os: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230428"
       os_codename: "jammy"
       disk_size: 20
-    - name: "dev-kw1"
+    - name: "worker"
       zone: "a"
       internal_ip: "10.138.0.6"
       type: "e2-highcpu-4"
