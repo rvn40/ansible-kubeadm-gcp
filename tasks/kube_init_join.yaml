@@ -27,13 +27,18 @@
   when: ansible_hostname == 'controlplane'
   register: reset_cluster
 
+- name: Get controlplane public IP
+  shell: curl ifconfig.me
+  when: ansible_hostname == 'controlplane'
+  register: getCPPubIP
+
 - name: Run init kubeadm
   become_user: root
   shell: |
     kubeadm init --service-cidr {{ kubeadm.service_cidr }} \
                  --pod-network-cidr {{ kubeadm.pod_network_cidr }} \
                  --token {{ kubeadm.token }} \
-                 --apiserver-advertise-address {{ ansible_default_ipv4.address }} \
+                 --control-plane-endpoint {{ getCPPubIP.stdout }} \
                  --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
   args:
     executable: /bin/bash
@@ -87,7 +92,7 @@
 - name: Print join command
   shell: | 
     echo '#!/bin/bash\n\n' > files/join_command.sh
-    
+    echo ' ' >> files/join_command.sh
     kubeadm token create --print-join-command >> files/join_command.sh
   when: ansible_hostname == 'controlplane'
 
