@@ -140,6 +140,7 @@
     JOIN_CLUSTER: "{{ join_cluster }}"
   when: ansible_hostname == 'worker'
 
-- name: Labeling worker
-  shell: "kubectl label nodes worker kubernetes.io/role=worker"
-  when: ansible_hostname == 'controlplane'
+#- name: Labeling worker
+#  become_user: root
+#  shell: "kubectl label nodes worker kubernetes.io/role=worker"
+#  when: ansible_hostname == 'controlplane'
