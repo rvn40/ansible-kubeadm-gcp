@@ -30,3 +30,4 @@ kubeadm:
   service_cidr: "10.138.16.0/16"
   pod_network_cidr: "10.138.32.0/16"
   container_runtime: "containerd"
+

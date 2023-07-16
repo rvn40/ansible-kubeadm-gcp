@@ -15,6 +15,7 @@
   set_fact:
     vm_project: "{{ vm.project }}"
     vm_region: "{{ vm.region }}"
+    vm_user: "{{ vm.user }}"
 
 - name: Create worker and controlplane
   ansible.builtin.uri:
@@ -64,7 +65,7 @@
   ansible.builtin.lineinfile:
     path: hosts
     insertafter: \[k8snodes\]
-    line: "{{ vm_instance.vm_node.name }} ansible_host={{ vm_instance.vm_node.internal_ip }} ansible_user={{ vm.user }} ansible_connection=ssh ansible_ssh_extra_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=\"/usr/bin/python3\""
+    line: "{{ vm_instance.vm_node.name }} ansible_host={{ vm_instance.vm_node.internal_ip }} ansible_user={{ vm_user }} ansible_connection=ssh ansible_ssh_extra_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=\"/usr/bin/python3\""
   loop: "{{ vm_json.results }}"
   loop_control:
     loop_var: vm_instance
