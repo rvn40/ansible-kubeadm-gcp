@@ -144,4 +144,4 @@
   shell: "kubectl label nodes {{ansible_hostname}} kubernetes.io/role=worker"
   environment:
     JOIN_CLUSTER: "{{ join_cluster }}"
-  when: ansible_hostname == 'worker'
+  when: ansible_hostname == 'controlplane'
