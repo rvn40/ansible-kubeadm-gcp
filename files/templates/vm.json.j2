@@ -34,7 +34,7 @@
     "items": [
       {
         "key": "startup-script",
-        "value": "#!/bin/bash\n\n# Define the username and password\nusername=\"ansible\"\npassword=\"ansible123\"\n\n# Check if the user already exists\nif id \"$username\" >/dev/null 2>&1; then\n  echo \"User $username already exists.\"\nelse\n  # Create the user\n  useradd -m -s /bin/bash \"$username\"\n  echo \"$username:$password\" | chpasswd\n  usermod -a -G sudo \"$username\"\n  sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config\n  echo \"User $username created with password $password.\"\nfi"
+        "value": "#!/bin/bash\n\n# Define the username and password\nusername=\"ansible\"\npassword=\"ansible123\"\n\n# Check if the user already exists\nif id \"$username\" >/dev/null 2>&1; then\n  echo \"User $username already exists.\"\nelse\n  # Create the user\n  useradd -m -s /bin/bash \"$username\"\n  echo \"$username:$password\" | chpasswd\n  usermod -a -G sudo \"$username\"\n  sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config\n  echo \"User $username created with password $password.\"\n sudo reboot\nfi"
       }
     ]
   },
