@@ -8,26 +8,26 @@ auth:
   token: ""
 vm:
   user: "ansible"
-  project: "devops-project-253405" 
-  region: "us-west1"
+  project: "techipool" 
+  region: "us-central1"
   nodes:
     - name: "controlplane"
       zone: "a"
-      internal_ip: "10.138.0.3"
+      internal_ip: "10.128.0.3"
       type: "e2-highcpu-4"
-      os: "projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20230510"
-      os_codename: "bionic"
+      os: "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20230715"
+      os_codename: "focal"
       disk_size: 20
     - name: "worker"
       zone: "a"
-      internal_ip: "10.138.0.6"
+      internal_ip: "10.128.0.4"
       type: "e2-highcpu-4"
-      os: "projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20230510"
-      os_codename: "bionic"
+      os: "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20230715"
+      os_codename: "focal"
       disk_size: 20
 kubeadm:
   token: "b0f7b8.8d1767876297d85c"
-  service_cidr: "10.138.16.0/16"
-  pod_network_cidr: "10.138.32.0/16"
+  service_cidr: "10.128.16.0/16"
+  pod_network_cidr: "10.128.32.0/16"
   container_runtime: "containerd"
 
