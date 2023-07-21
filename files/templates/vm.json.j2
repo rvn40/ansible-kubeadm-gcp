@@ -66,7 +66,7 @@
   },
   "serviceAccounts": [
     {
-      "email": "439901317535-compute@developer.gserviceaccount.com",
+      "email": "{{ auth.email }}",
       "scopes": [
         "https://www.googleapis.com/auth/devstorage.read_only",
         "https://www.googleapis.com/auth/logging.write",
@@ -83,7 +83,10 @@
     "enableVtpm": true
   },
   "tags": {
-    "items": []
+    "items": [
+      "default-allowall-internal",
+      "god-mode"
+    ]
   },
   "zone": "projects/{{ vm.project }}/zones/{{ vm.region }}-{{ vm_node.zone }}"
 }
