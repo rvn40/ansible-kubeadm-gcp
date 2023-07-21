@@ -21,7 +21,7 @@ vm:
     - name: "worker"
       zone: "a"
       internal_ip: "10.128.0.4"
-      type: "e2-highcpu-4"
+      type: "e2-medium"
       os: "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20230715"
       os_codename: "focal"
       disk_size: 20
