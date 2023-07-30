@@ -1,12 +1,12 @@
 ---
 
-- name: Get ip
-  ansible.builtin.uri:
-    url: 'https://ifconfig.me/ip'
-    method: GET
-    return_content: true
-  register: getIP
-  when: ansible_hostname == 'controlplane'
+# - name: Get ip
+#   ansible.builtin.uri:
+#     url: 'https://ifconfig.me/ip'
+#     method: GET
+#     return_content: true
+#   register: getIP
+#   when: ansible_hostname == 'controlplane'
 
 - name: Checking file config containerd exist
   stat: path=/etc/containerd/config.toml
@@ -27,10 +27,10 @@
   when: ansible_hostname == 'controlplane'
   register: reset_cluster
 
-- name: Get controlplane public IP
-  shell: curl ifconfig.me
-  when: ansible_hostname == 'controlplane'
-  register: getCPPubIP
+# - name: Get controlplane public IP
+#   shell: curl ifconfig.me
+#   when: ansible_hostname == 'controlplane'
+#   register: getCPPubIP # {{ getCPPubIP.stdout }} 
 
 - name: Run init kubeadm
   become_user: root
@@ -38,7 +38,7 @@
     kubeadm init --service-cidr {{ kubeadm.service_cidr }} \
                  --pod-network-cidr {{ kubeadm.pod_network_cidr }} \
                  --token {{ kubeadm.token }} \
-                 --control-plane-endpoint {{ getCPPubIP.stdout }} \
+                 --control-plane-endpoint {{ vm_node.internal_ip }} \ 
                  --cri-socket=unix:///run/{{ kubeadm.container_runtime }}/{{ kubeadm.container_runtime }}.sock
   args:
     executable: /bin/bash
