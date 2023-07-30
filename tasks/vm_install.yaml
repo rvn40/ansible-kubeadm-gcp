@@ -13,7 +13,7 @@
 - name: Install kubadm components
   apt:
     name: "{{ item }}"
-    state: latest
+    state: 1.26.0-00 # Latest
     update_cache: yes
   loop:
     - kubelet
