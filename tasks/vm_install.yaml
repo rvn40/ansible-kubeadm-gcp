@@ -16,9 +16,9 @@
     state: present
     update_cache: yes
   loop:
-    - kubelet=1.26.0-00
-    - kubeadm=1.26.0-00
-    - kubectl=1.26.0-00
+    - kubelet=1.26.7
+    - kubeadm=1.26.7
+    - kubectl=1.26.7
 
 - name: Hold kubeadm components
   ansible.builtin.dpkg_selections:
