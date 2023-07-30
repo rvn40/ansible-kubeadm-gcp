@@ -13,12 +13,12 @@
 - name: Install kubadm components
   apt:
     name: "{{ item }}"
-    state: 1.26.0-00 # Latest
+    state: present
     update_cache: yes
   loop:
-    - kubelet
-    - kubeadm
-    - kubectl
+    - kubelet=1.26.0-00
+    - kubeadm=1.26.0-00
+    - kubectl=1.26.0-00
 
 - name: Hold kubeadm components
   ansible.builtin.dpkg_selections:
