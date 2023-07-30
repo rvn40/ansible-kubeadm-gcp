@@ -30,7 +30,7 @@
 # - name: Get controlplane public IP
 #   shell: curl ifconfig.me
 #   when: ansible_hostname == 'controlplane'
-#   register: getCPPubIP # {{ getCPPubIP.stdout }} 
+#   register: getCPPubIP # {{ getCPPubIP.stdout }}  
 
 - name: Run init kubeadm
   become_user: root
