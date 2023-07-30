@@ -18,7 +18,7 @@
   loop:
     - kubelet=1.26.7-00
     - kubeadm=1.26.7-00
-    - kubectl=1.26.7-00
+    - kubectl
 
 - name: Hold kubeadm components
   ansible.builtin.dpkg_selections:
